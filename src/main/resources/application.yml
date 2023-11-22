@@ -1,0 +1,14 @@
+spring:
+  #  config:
+  #    activate:
+  #      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/bankdb
+    password: boroja24
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
