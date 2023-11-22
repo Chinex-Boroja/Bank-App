@@ -4,6 +4,11 @@ import java.time.Year;
 
 public class AccountUtils {
 
+    public static final String ACCOUNT_EXISTS_CODE = "001";
+    public static final String ACCOUNT_EXISTS_MESSAGE = "Sorry!! Customer already exists";
+    public static final String ACCOUNT_CREATION_CODE = "002";
+    public static final String ACCOUNT_CREATION_MESSAGE = "Account has been successfully created";
+
     /**
      * Begins with the current year, with any random six digits
      */
