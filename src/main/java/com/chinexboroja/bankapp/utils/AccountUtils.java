@@ -9,6 +9,10 @@ public class AccountUtils {
     public static final String ACCOUNT_CREATION_CODE = "002";
     public static final String ACCOUNT_CREATION_MESSAGE = "Account has been successfully created";
 
+    public static final String EMAIL_SUBJECT_MESSAGE = "ACCOUNT CREATION";
+
+    public static final String EMAIL_MESSAGE_BODY = "Congratulations! Your Account has been created successfully";
+
     /**
      * Begins with the current year, with any random six digits
      */
