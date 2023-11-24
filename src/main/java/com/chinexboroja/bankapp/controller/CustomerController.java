@@ -2,12 +2,10 @@ package com.chinexboroja.bankapp.controller;
 
 import com.chinexboroja.bankapp.dto.BankResponse;
 import com.chinexboroja.bankapp.dto.CustomerRequest;
+import com.chinexboroja.bankapp.dto.EnquiryRequest;
 import com.chinexboroja.bankapp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -19,5 +17,15 @@ public class CustomerController {
     @PostMapping("/customer")
     public BankResponse createAccount(@RequestBody CustomerRequest customerRequest) {
         return customerService.createAccount(customerRequest);
+    }
+
+    @GetMapping("/customer-balance")
+    public BankResponse getAccountBalance(@RequestBody EnquiryRequest request) {
+        return customerService.getAccountBalance(request);
+    }
+
+    @GetMapping("/customer-name")
+    public String getCustomerName(@RequestBody EnquiryRequest request) {
+        return customerService.getAccountName(request);
     }
 }
