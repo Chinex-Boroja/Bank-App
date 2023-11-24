@@ -109,4 +109,31 @@ public class CustomerServiceImpl implements CustomerService{
         Customer foundCustomer = customerRepository.findByAccountNumber(enquiryRequest.getAccountNumber());
         return foundCustomer.getFirstName() + " " + foundCustomer.getLastName() + " " + foundCustomer.getOtherName();
     }
+
+    @Override
+    public BankResponse creditAccount(CreditDebitRequest creditRequest) {
+
+        boolean isAccountExist = customerRepository.existsByAccountNumber(creditRequest.getAccountNumber());
+        if (!isAccountExist) {
+            return  BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_NOT_EXIST_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_NOT_EXIST_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+
+        Customer creditCustomer = customerRepository.findByAccountNumber(creditRequest.getAccountNumber());
+        creditCustomer.setAccountBalance(creditCustomer.getAccountBalance().add(creditRequest.getAmount()));
+        customerRepository.save(creditCustomer);
+
+        return BankResponse.builder()
+                .responseCode(AccountUtils.ACCOUNT_CREDITED_SUCCESS_CODE)
+                .responseMessage(AccountUtils.ACCOUNT_CREDITED_SUCCESS_MESSAGE)
+                .accountInfo(AccountInfo.builder()
+                        .accountNumber(creditRequest.getAccountNumber())
+                        .accountName(creditCustomer.getFirstName() + " " + creditCustomer.getLastName() + " " + creditCustomer.getOtherName())
+                        .accountBalance(creditCustomer.getAccountBalance())
+                        .build())
+                .build();
+    }
 }

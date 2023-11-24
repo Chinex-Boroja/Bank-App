@@ -1,6 +1,7 @@
 package com.chinexboroja.bankapp.controller;
 
 import com.chinexboroja.bankapp.dto.BankResponse;
+import com.chinexboroja.bankapp.dto.CreditDebitRequest;
 import com.chinexboroja.bankapp.dto.CustomerRequest;
 import com.chinexboroja.bankapp.dto.EnquiryRequest;
 import com.chinexboroja.bankapp.service.CustomerService;
@@ -27,5 +28,10 @@ public class CustomerController {
     @GetMapping("/customer-name")
     public String getCustomerName(@RequestBody EnquiryRequest request) {
         return customerService.getAccountName(request);
+    }
+
+    @PostMapping("/customer-credit")
+    public BankResponse creditAccount(@RequestBody CreditDebitRequest request) {
+        return customerService.creditAccount(request);
     }
 }
