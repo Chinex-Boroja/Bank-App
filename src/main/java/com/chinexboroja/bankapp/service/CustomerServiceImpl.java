@@ -136,4 +136,46 @@ public class CustomerServiceImpl implements CustomerService{
                         .build())
                 .build();
     }
+
+    @Override
+    public BankResponse debitAccount(CreditDebitRequest debitRequest) {
+        boolean isAccountExist = customerRepository.existsByAccountNumber(debitRequest.getAccountNumber());
+        if (!isAccountExist) {
+            return  BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_NOT_EXIST_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_NOT_EXIST_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+
+        // Add email services for both debit and credit
+
+        Customer debitCustomer = customerRepository.findByAccountNumber(debitRequest.getAccountNumber());
+
+        // Alternative approach
+        // BigInteger availableBalance = debitCustomer.getAccountBalance().toBigInteger;
+        // BigInteger debitAmount = debitRequest.getAmount().toBigInteger;
+        // if (availableBalance.intValue() < debitAmount.intValue())
+
+        if (debitRequest.getAmount().compareTo(debitCustomer.getAccountBalance()) == 1) {
+            return  BankResponse.builder()
+                    .responseCode(AccountUtils.INSUFFICIENT_BALANCE_CODE)
+                    .responseMessage(AccountUtils.INSUFFICIENT_BALANCE_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+        else {
+            debitCustomer.setAccountBalance(debitCustomer.getAccountBalance().subtract(debitRequest.getAmount()));
+            customerRepository.save(debitCustomer);
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_DEBITED_SUCCESS_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_DEBITED_SUCCESS_MESSAGE)
+                    .accountInfo(AccountInfo.builder()
+                            .accountName(debitCustomer.getFirstName() + " " + debitCustomer.getLastName() + " " + debitCustomer.getOtherName())
+                            .accountNumber(debitRequest.getAccountNumber())
+                            .accountBalance(debitCustomer.getAccountBalance())
+                            .build())
+                    .build();
+        }
+    }
 }

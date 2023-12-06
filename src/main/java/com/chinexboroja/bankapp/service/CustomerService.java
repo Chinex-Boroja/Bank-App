@@ -14,4 +14,6 @@ public interface CustomerService {
     String getAccountName(EnquiryRequest enquiryRequest);
 
     BankResponse creditAccount(CreditDebitRequest creditRequest);
+
+    BankResponse debitAccount(CreditDebitRequest debitRequest);
 }
