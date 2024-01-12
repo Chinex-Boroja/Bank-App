@@ -56,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService{
                 .recipient(savedCustomer.getEmail())
                 .subject(AccountUtils.EMAIL_SUBJECT_MESSAGE)
                 .messageBody(AccountUtils.EMAIL_MESSAGE_BODY + "\nYOUR ACCOUNT DETAILS: \nAccount Name: " +
-                        savedCustomer.getFirstName() + " " + savedCustomer.getLastName() + " " + savedCustomer.getLastName() +
+                        savedCustomer.getFirstName() + " " + savedCustomer.getLastName() + " " + savedCustomer.getOtherName() +
                 "\nAccount Number: " + savedCustomer.getAccountNumber())
                 .build();
         emailService.sendEmailAlert(emailDetails);
@@ -125,6 +125,16 @@ public class CustomerServiceImpl implements CustomerService{
         Customer creditCustomer = customerRepository.findByAccountNumber(creditRequest.getAccountNumber());
         creditCustomer.setAccountBalance(creditCustomer.getAccountBalance().add(creditRequest.getAmount()));
         customerRepository.save(creditCustomer);
+
+        EmailDetails emailDetails = EmailDetails.builder()
+                .recipient(creditCustomer.getEmail())
+                .subject(AccountUtils.ACCOUNT_CREDIT_EMAIL_SUBJECT_MESSAGE)
+                .messageBody(AccountUtils.ACCOUNT_CREDIT_EMAIL_MESSAGE_BODY + "\nYOUR ACCOUNT DETAILS: \nAccount Name: " +
+                        creditCustomer.getFirstName() + " " + creditCustomer.getLastName() + " " + creditCustomer.getOtherName() +
+                        "\nAccount Number: " + creditCustomer.getAccountNumber() +
+                        "\nAmount deposited: " + creditRequest.getAmount() + "\nAvailable balance: " + creditCustomer.getAccountBalance())
+                .build();
+        emailService.sendEmailAlert(emailDetails);
 
         return BankResponse.builder()
                 .responseCode(AccountUtils.ACCOUNT_CREDITED_SUCCESS_CODE)

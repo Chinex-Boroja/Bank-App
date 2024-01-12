@@ -10,6 +10,8 @@ public class AccountUtils {
     public static final String ACCOUNT_CREATION_MESSAGE = "Account has been successfully created";
     public static final String EMAIL_SUBJECT_MESSAGE = "ACCOUNT CREATION";
     public static final String EMAIL_MESSAGE_BODY = "Congratulations! Your Account has been created successfully";
+    public static final String ACCOUNT_CREDIT_EMAIL_SUBJECT_MESSAGE = "Credit Transaction Alert!!";
+    public static final String ACCOUNT_CREDIT_EMAIL_MESSAGE_BODY = "Your Account has been credited successfully";
     public static final String ACCOUNT_NOT_EXIST_CODE = "003";
     public static final String ACCOUNT_NOT_EXIST_MESSAGE = "Customer with the provided Account number does not exist";
     public static final String ACCOUNT_FOUND_CODE = "004";
